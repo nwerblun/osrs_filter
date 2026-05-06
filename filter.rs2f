@@ -734,7 +734,7 @@ type: stringlist
 label: Items to highlight
 group: Highighted items
 */
-#define VAR_UNTRADEABLES_HIGHLIGHTED ["Dark totem*","Ancient shard","Ancient shard"]
+#define VAR_UNTRADEABLES_HIGHLIGHTED ["Dark totem*","Ancient shard"]
 
 /*@ define:input
 type: style
@@ -746,13 +746,15 @@ exampleItem: Dragon Defender
 
 apply (tradeable:false && VAR_UNTRADEABLE_SHOW_ICON) { icon = CurrentItem(); }
 apply (tradeable:false && name:VAR_UNTRADEABLES_HIGHLIGHTED) { VAR_UNTRADEABLES_STYLE }
-rule (!VAR_UNTRADEABLE_ALWAYS_SHOW && value:<VAR_UNTRADEABLE_MIN_VAL) {
+apply (tradeable:false && VAR_UNTRADEABLE_PRIORITIZE) {
+  menuSort = -1;
+}
+rule (tradeable:false && !VAR_UNTRADEABLE_ALWAYS_SHOW && value:<VAR_UNTRADEABLE_MIN_VAL) {
     hidden = true;
 }
-rule (tradeable:false && VAR_UNTRADEABLE_PRIORITIZE) {
-    menuSort = -1;
+rule (tradeable:false && VAR_UNTRADEABLE_ALWAYS_SHOW) {
+  hidden = false;
 }
-
 
 //-------------------------Item Values----------------------------//
 
@@ -861,8 +863,6 @@ rule (value:>=VAR_VALUE_T2_VALUE) { VAR_VALUE_T2_CUSTOMSTYLE }
 rule (value:>=VAR_VALUE_T1_VALUE) { VAR_VALUE_T1_CUSTOMSTYLE }
 rule (value:>=VAR_VALUE_T0_VALUE) { VAR_VALUE_T0_CUSTOMSTYLE }
 apply (value:<VAR_VALUE_T0_VALUE) { hidden = true; }
-// unhide untradeables if set to
-apply (tradeable:false && VAR_UNTRADEABLE_ALWAYS_SHOW) [ hidden = false; ]
 //-------------------------Always Show----------------------------//
 
 
