@@ -779,7 +779,15 @@ label: Show bone drops
 group: Kurasks
 */
 #define VAR_SLAYER_KURASK_SHOW_BONES true
-rule (CONST_KURASK_RULE(VAR_SLAYER_KURASK_SHOW_BONES) && name:["Bones"]) { hidden = false; }
+CONST_KURASK_RULE(VAR_SLAYER_KURASK_SHOW_BONES && name:["Bones"]) { hidden = false; }
+
+/*@ define:input
+type: boolean
+label: Show big bone drops
+group: Kurasks
+*/
+#define VAR_SLAYER_KURASK_SHOW_BIG_BONES true
+CONST_KURASK_RULE(VAR_SLAYER_KURASK_SHOW_BIG_BONES && name:["Big bones"]) { hidden = false; }
 
 /*@ define:input
 type: boolean
@@ -787,16 +795,16 @@ label: Show white berries
 group: Kurasks
 */
 #define VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES true
-rule (CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES) && name:["White berries"]) { hidden = false; }
+CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES && name:["White berries"]) { hidden = false; }
 
 /*@ define:input
 type: boolean
-label: Show worthwhile alchables
+label: Show "worthwhile" alchables
 group: Kurasks
 */
-#define VAR_SLAYER_KURASKS_SHOW_ALCHABLES true
-#define VAR_SLAYER_KURASKS_ALCHS ["Adamant platebody", "Rune axe", "Rune  longsword"]
-rule (CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES) && name:VAR_SLAYER_KURASKS_ALCHS) { hidden = false; }
+#define VAR_SLAYER_KURASKS_SHOW_ALCHS true
+#define VAR_SLAYER_KURASKS_ALCH_LIST ["Adamant platebody", "Rune axe", "Rune longsword"]
+CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_ALCHS && name:VAR_SLAYER_KURASKS_ALCH_LIST) { hidden = false; }
 
 //-------------------------Always Show----------------------------//
 
