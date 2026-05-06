@@ -760,9 +760,9 @@ rule (name:VAR_UNTRADEABLES_HIGHLIGHTED) { VAR_UNTRADEABLES_STYLE }
 //-------------------------Slayer----------------------------//
 
 /*@ define:module:slayer
- - --                  *
- name: Slayer
- */
+---
+name: Slayer
+*/
 //copied from riktenx ty buddy
 //coords are x0,y0,z0,x1,y1,z1 where 0 = lower left, 1 = upper right
 #define CONST_AREA_KURASK0 [2694,9992,0,2701,10001,0] // [[Fremennik Slayer Dungeon]] {{Fairycode|AJR}}
@@ -774,13 +774,29 @@ rule (name:VAR_UNTRADEABLES_HIGHLIGHTED) { VAR_UNTRADEABLES_STYLE }
 
 
 /*@ define:input
- t ype: boolean        *
- label: Show bone drops
- group: Kurasks
- */
+type: boolean
+label: Show bone drops
+group: Kurasks
+*/
 #define VAR_SLAYER_KURASK_SHOW_BONES true
 rule (CONST_KURASK_RULE(VAR_SLAYER_KURASK_SHOW_BONES) && name:["Bones"]) { hidden = false; }
 
+/*@ define:input
+type: boolean
+label: Show white berries
+group: Kurasks
+*/
+#define VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES true
+rule (CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES) && name:["White berries"]) { hidden = false; }
+
+/*@ define:input
+type: boolean
+label: Show worthwhile alchables
+group: Kurasks
+*/
+#define VAR_SLAYER_KURASKS_SHOW_ALCHABLES true
+#define VAR_SLAYER_KURASKS_ALCHS ["Adamant platebody", "Rune axe", "Rune  longsword"]
+rule (CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_WHITE_BERRIES) && name:VAR_SLAYER_KURASKS_ALCHS) { hidden = false; }
 
 //-------------------------Always Show----------------------------//
 
@@ -820,98 +836,98 @@ rule (area:CONST_CHAOS_ALTAR_LOC && name:["Wine of zamorak"] && VAR_MISC_STUFF_S
 
 
 /*@ define:module:item_values
- - --                                                 *
- name: Item values
- */
+---
+name: Item values
+*/
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: 'Insane tier++'
- */
+type: number
+label: Value
+group: 'Insane tier++'
+*/
 #define VAR_VALUE_T5_VALUE 100000000
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: 'Insane tier+'
- */
+type: number
+label: Value
+group: 'Insane tier+'
+*/
 #define VAR_VALUE_T4_VALUE 50000000
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: Insane tier
- */
+type: number
+label: Value
+group: Insane tier
+*/
 #define VAR_VALUE_T3_VALUE 10000000
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: High tier
- */
+type: number
+label: Value
+group: High tier
+*/
 #define VAR_VALUE_T2_VALUE 1000000
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: Medium tier
- */
+type: number
+label: Value
+group: Medium tier
+*/
 #define VAR_VALUE_T1_VALUE 100000
 
 /*@ define:input:item_values
- t ype: number                                        *
- label: Value
- group: Low tier
- */
+type: number
+label: Value
+group: Low tier
+*/
 #define VAR_VALUE_T0_VALUE 10000
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: 'Insane tier++'
- exampleItem: Torva platebody (damaged)
- */
+type: style
+label: Style
+group: 'Insane tier++'
+exampleItem: Torva platebody (damaged)
+*/
 #define VAR_VALUE_T5_CUSTOMSTYLE hidden = false;textColor = "#ff0000";backgroundColor = "#ffffff";borderColor = "#ff0000";textAccent = 3;showLootbeam = true;showValue = true;highlightTile = false;
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: 'Insane tier+'
- exampleItem: Zaryte vambraces
- */
+type: style
+label: Style
+group: 'Insane tier+'
+exampleItem: Zaryte vambraces
+*/
 #define VAR_VALUE_T4_CUSTOMSTYLE hidden = false;textColor = "#ffffff";backgroundColor = "#80ff0000";borderColor = "#ffffff";lootbeamColor = "#ff0000";showLootbeam = true;showValue = true;highlightTile = false;
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: Insane tier
- exampleItem: Bandos tassets
- */
+type: style
+label: Style
+group: Insane tier
+exampleItem: Bandos tassets
+*/
 #define VAR_VALUE_T3_CUSTOMSTYLE hidden = false;textColor = "#ff66b2";backgroundColor = "#80ffffff";borderColor = "#ff66b2";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: High tier
- exampleItem: Abyssal whip
- */
+type: style
+label: Style
+group: High tier
+exampleItem: Abyssal whip
+*/
 #define VAR_VALUE_T2_CUSTOMSTYLE hidden = false;textColor = "#ff9600";backgroundColor = "#80ffffff";borderColor = "#ff9600";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: Medium tier
- exampleItem: Dragon pickaxe
- */
+type: style
+label: Style
+group: Medium tier
+exampleItem: Dragon pickaxe
+*/
 #define VAR_VALUE_T1_CUSTOMSTYLE hidden = false;textColor = "#99ff99";borderColor = "#99ff99";showValue = true;highlightTile = false;
 
 /*@ define:input:item_values
- t ype: style                                         *
- label: Style
- group: Low tier
- exampleItem: Rune platebody
- */
+type: style
+label: Style
+group: Low tier
+exampleItem: Rune platebody
+*/
 #define VAR_VALUE_T0_CUSTOMSTYLE hidden = false;textColor = "#66b2ff";showValue = true;highlightTile = false;
 
 rule (value:>=VAR_VALUE_T5_VALUE) { VAR_VALUE_T5_CUSTOMSTYLE }
