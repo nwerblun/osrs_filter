@@ -3,7 +3,6 @@ hidden: true
 name: header
 */
 meta { name = "General Filter"; description = "Yeah..."; }
-
 //-------------------------------NOTES-------------------------------------//
 
 /*
@@ -750,119 +749,39 @@ apply (tradeable:false && VAR_UNTRADEABLE_PRIORITIZE) {
   menuSort = -1;
 }
 rule (tradeable:false && !VAR_UNTRADEABLE_ALWAYS_SHOW && value:<VAR_UNTRADEABLE_MIN_VAL) {
-    hidden = true;
+  hidden = true;
 }
 rule (tradeable:false && VAR_UNTRADEABLE_ALWAYS_SHOW) {
   hidden = false;
 }
+// workaround, tradeable flag seems bugged
+rule (name:VAR_UNTRADEABLES_HIGHLIGHTED) { VAR_UNTRADEABLES_STYLE }
 
-//-------------------------Item Values----------------------------//
+//-------------------------Slayer----------------------------//
+
+/*@ define:module:slayer
+ - --                  *
+ name: Slayer
+ */
+//copied from riktenx ty buddy
+//coords are x0,y0,z0,x1,y1,z1 where 0 = lower left, 1 = upper right
+#define CONST_AREA_KURASK0 [2694,9992,0,2701,10001,0] // [[Fremennik Slayer Dungeon]] {{Fairycode|AJR}}
+#define CONST_AREA_KURASK1 [2696,9959,0,2716,9977,0] // [[Fremennik Slayer Dungeon]] ([[Slayer task]] only)
+#define CONST_AREA_KURASK2 [3208,12357,0,3258,12389,0] // [[Iorwerth Dungeon]]
+#define CONST_KURASK_RULE(_cond) rule ((area:CONST_AREA_KURASK0 || \
+  area:CONST_AREA_KURASK1 || \
+  area:CONST_AREA_KURASK2) && (_cond))
 
 
+/*@ define:input
+ t ype: boolean        *
+ label: Show bone drops
+ group: Kurasks
+ */
+#define VAR_SLAYER_KURASK_SHOW_BONES true
+rule (CONST_KURASK_RULE(VAR_SLAYER_KURASK_SHOW_BONES) && name:["Bones"]) { hidden = false; }
 
 
-/*@ define:module:item_values
----
-name: Item values
-*/
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: 'Insane tier++'
-*/
-#define VAR_VALUE_T5_VALUE 100000000
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: 'Insane tier+'
-*/
-#define VAR_VALUE_T4_VALUE 50000000
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: Insane tier
-*/
-#define VAR_VALUE_T3_VALUE 10000000
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: High tier
-*/
-#define VAR_VALUE_T2_VALUE 1000000
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: Medium tier
-*/
-#define VAR_VALUE_T1_VALUE 100000
-
-/*@ define:input:item_values
-type: number
-label: Value
-group: Low tier
-*/
-#define VAR_VALUE_T0_VALUE 10000
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: 'Insane tier++'
-exampleItem: Torva platebody (damaged)
-*/
-#define VAR_VALUE_T5_CUSTOMSTYLE hidden = false;textColor = "#ff0000";backgroundColor = "#ffffff";borderColor = "#ff0000";textAccent = 3;showLootbeam = true;showValue = true;highlightTile = false;
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: 'Insane tier+'
-exampleItem: Zaryte vambraces
-*/
-#define VAR_VALUE_T4_CUSTOMSTYLE hidden = false;textColor = "#ffffff";backgroundColor = "#80ff0000";borderColor = "#ffffff";lootbeamColor = "#ff0000";showLootbeam = true;showValue = true;highlightTile = false;
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: Insane tier
-exampleItem: Bandos tassets
-*/
-#define VAR_VALUE_T3_CUSTOMSTYLE hidden = false;textColor = "#ff66b2";backgroundColor = "#80ffffff";borderColor = "#ff66b2";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: High tier
-exampleItem: Abyssal whip
-*/
-#define VAR_VALUE_T2_CUSTOMSTYLE hidden = false;textColor = "#ff9600";backgroundColor = "#80ffffff";borderColor = "#ff9600";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: Medium tier
-exampleItem: Dragon pickaxe
-*/
-#define VAR_VALUE_T1_CUSTOMSTYLE hidden = false;textColor = "#99ff99";borderColor = "#99ff99";showValue = true;highlightTile = false;
-
-/*@ define:input:item_values
-type: style
-label: Style
-group: Low tier
-exampleItem: Rune platebody
-*/
-#define VAR_VALUE_T0_CUSTOMSTYLE hidden = false;textColor = "#66b2ff";showValue = true;highlightTile = false;
-
-rule (value:>=VAR_VALUE_T5_VALUE) { VAR_VALUE_T5_CUSTOMSTYLE }
-rule (value:>=VAR_VALUE_T4_VALUE) { VAR_VALUE_T4_CUSTOMSTYLE }
-rule (value:>=VAR_VALUE_T3_VALUE) { VAR_VALUE_T3_CUSTOMSTYLE }
-rule (value:>=VAR_VALUE_T2_VALUE) { VAR_VALUE_T2_CUSTOMSTYLE }
-rule (value:>=VAR_VALUE_T1_VALUE) { VAR_VALUE_T1_CUSTOMSTYLE }
-rule (value:>=VAR_VALUE_T0_VALUE) { VAR_VALUE_T0_CUSTOMSTYLE }
-apply (value:<VAR_VALUE_T0_VALUE) { hidden = true; }
 //-------------------------Always Show----------------------------//
 
 
@@ -877,34 +796,8 @@ type: stringlist
 label: item list
 */
 #define VAR_ALWAYS_SHOW_ITEMS ["Prayer potion*","Super restore*","Saradomin brew*","Shark","Manta Ray","Anglerfish","Stamina potion*","*Super combat*","*Ranging potion*","Loop half*","Tooth half*","Blighted*","*teleport","Blighted*","*teleport"]
-
-rule (name:VAR_ALWAYS_SHOW_ITEMS) { hidden = false; }
-
-//-------------------------Rune Filtering pt 2--------------------------//
-
-// Apply rune stuff again to unhide them if not ignoring item value, but they do exceed the hide qty
-apply (name:["Air rune"] && quantity:>=VAR_RUNE_AIR_HIDE_QTY) { hidden = false; }
-apply (name:["Water rune"] && quantity:>=VAR_RUNE_WATER_HIDE_QTY) { hidden = false; }
-apply (name:["Earth rune"] && quantity:>=VAR_RUNE_EARTH_HIDE_QTY) { hidden = false; }
-apply (name:["Fire rune"] && quantity:>=VAR_RUNE_FIRE_HIDE_QTY) { hidden = false; }
-apply (name:["Smoke rune"] && quantity:>=VAR_RUNE_SMOKE_HIDE_QTY) { hidden = false; }
-apply (name:["Dust rune"] && quantity:>=VAR_RUNE_DUST_HIDE_QTY) { hidden = false; }
-apply (name:["Steam rune"] && quantity:>=VAR_RUNE_STEAM_HIDE_QTY) { hidden = false; }
-apply (name:["Mist rune"] && quantity:>=VAR_RUNE_MIST_HIDE_QTY) { hidden = false; }
-apply (name:["Lava rune"] && quantity:>=VAR_RUNE_LAVA_HIDE_QTY) { hidden = false; }
-apply (name:["Mud rune"] && quantity:>=VAR_RUNE_MUD_HIDE_QTY) { hidden = false; }
-apply (name:["Sunfire rune"] && quantity:>=VAR_RUNE_SUNFIRE_HIDE_QTY) { hidden = false; }
-apply (name:["Body rune"] && quantity:>=VAR_RUNE_BODY_HIDE_QTY) { hidden = false; }
-apply (name:["Mind rune"] && quantity:>=VAR_RUNE_MIND_HIDE_QTY) { hidden = false; }
-apply (name:["Cosmic rune"] && quantity:>=VAR_RUNE_COSMIC_HIDE_QTY) { hidden = false; }
-apply (name:["Chaos rune"] && quantity:>=VAR_RUNE_CHAOS_HIDE_QTY) { hidden = false; }
-apply (name:["Nature rune"] && quantity:>=VAR_RUNE_NATURE_HIDE_QTY) { hidden = false; }
-apply (name:["Law rune"] && quantity:>=VAR_RUNE_LAW_HIDE_QTY) { hidden = false; }
-apply (name:["Death rune"] && quantity:>=VAR_RUNE_DEATH_HIDE_QTY) { hidden = false; }
-apply (name:["Blood rune"] && quantity:>=VAR_RUNE_BLOOD_HIDE_QTY) { hidden = false; }
-apply (name:["Soul rune"] && quantity:>=VAR_RUNE_SOUL_HIDE_QTY) { hidden = false; }
-apply (name:["Aether rune"] && quantity:>=VAR_RUNE_AETHER_HIDE_QTY) { hidden = false; }
-apply (name:["Wrath rune"] && quantity:>=VAR_RUNE_WRATH_HIDE_QTY) { hidden = false; }
+// Rule later
+apply (name:VAR_ALWAYS_SHOW_ITEMS) { hidden = false; }
 
 //-------------------------Misc stuff----------------------------//
 
@@ -919,4 +812,115 @@ type: boolean
 label: show wine of zammy in chaos altar?
 */
 #define VAR_MISC_STUFF_SHOW_WOZ true
-apply (area:CONST_CHAOS_ALTAR_LOC && name:["Wine of zamorak"] && VAR_MISC_STUFF_SHOW_WOZ) { hidden = false; }
+rule (area:CONST_CHAOS_ALTAR_LOC && name:["Wine of zamorak"] && VAR_MISC_STUFF_SHOW_WOZ) { hidden = false; }
+
+//-------------------------Item Values----------------------------//
+
+
+
+
+/*@ define:module:item_values
+ - --                                                 *
+ name: Item values
+ */
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: 'Insane tier++'
+ */
+#define VAR_VALUE_T5_VALUE 100000000
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: 'Insane tier+'
+ */
+#define VAR_VALUE_T4_VALUE 50000000
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: Insane tier
+ */
+#define VAR_VALUE_T3_VALUE 10000000
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: High tier
+ */
+#define VAR_VALUE_T2_VALUE 1000000
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: Medium tier
+ */
+#define VAR_VALUE_T1_VALUE 100000
+
+/*@ define:input:item_values
+ t ype: number                                        *
+ label: Value
+ group: Low tier
+ */
+#define VAR_VALUE_T0_VALUE 10000
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: 'Insane tier++'
+ exampleItem: Torva platebody (damaged)
+ */
+#define VAR_VALUE_T5_CUSTOMSTYLE hidden = false;textColor = "#ff0000";backgroundColor = "#ffffff";borderColor = "#ff0000";textAccent = 3;showLootbeam = true;showValue = true;highlightTile = false;
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: 'Insane tier+'
+ exampleItem: Zaryte vambraces
+ */
+#define VAR_VALUE_T4_CUSTOMSTYLE hidden = false;textColor = "#ffffff";backgroundColor = "#80ff0000";borderColor = "#ffffff";lootbeamColor = "#ff0000";showLootbeam = true;showValue = true;highlightTile = false;
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: Insane tier
+ exampleItem: Bandos tassets
+ */
+#define VAR_VALUE_T3_CUSTOMSTYLE hidden = false;textColor = "#ff66b2";backgroundColor = "#80ffffff";borderColor = "#ff66b2";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: High tier
+ exampleItem: Abyssal whip
+ */
+#define VAR_VALUE_T2_CUSTOMSTYLE hidden = false;textColor = "#ff9600";backgroundColor = "#80ffffff";borderColor = "#ff9600";textAccent = 4;showLootbeam = true;showValue = true;highlightTile = false;
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: Medium tier
+ exampleItem: Dragon pickaxe
+ */
+#define VAR_VALUE_T1_CUSTOMSTYLE hidden = false;textColor = "#99ff99";borderColor = "#99ff99";showValue = true;highlightTile = false;
+
+/*@ define:input:item_values
+ t ype: style                                         *
+ label: Style
+ group: Low tier
+ exampleItem: Rune platebody
+ */
+#define VAR_VALUE_T0_CUSTOMSTYLE hidden = false;textColor = "#66b2ff";showValue = true;highlightTile = false;
+
+rule (value:>=VAR_VALUE_T5_VALUE) { VAR_VALUE_T5_CUSTOMSTYLE }
+rule (value:>=VAR_VALUE_T4_VALUE) { VAR_VALUE_T4_CUSTOMSTYLE }
+rule (value:>=VAR_VALUE_T3_VALUE) { VAR_VALUE_T3_CUSTOMSTYLE }
+rule (value:>=VAR_VALUE_T2_VALUE) { VAR_VALUE_T2_CUSTOMSTYLE }
+rule (value:>=VAR_VALUE_T1_VALUE) { VAR_VALUE_T1_CUSTOMSTYLE }
+rule (value:>=VAR_VALUE_T0_VALUE) { VAR_VALUE_T0_CUSTOMSTYLE }
+apply (value:<VAR_VALUE_T0_VALUE && \
+  !name:RUNE_TYPES && \
+  !name:VAR_ALWAYS_SHOW_ITEMS)
+  { hidden = true; }
