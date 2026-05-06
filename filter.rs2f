@@ -806,6 +806,15 @@ group: Kurasks
 #define VAR_SLAYER_KURASKS_ALCH_LIST ["Adamant platebody", "Rune axe", "Rune longsword"]
 CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_ALCHS && name:VAR_SLAYER_KURASKS_ALCH_LIST) { hidden = false; }
 
+/*@ define:input
+type: boolean
+label: Show "worthwhile" herbs
+group: Kurasks
+*/
+#define VAR_SLAYER_KURASKS_SHOW_HERBS true
+#define VAR_SLAYER_KURASKS_HERB_LIST ["*irit*", "*toadflax*", "*kwuarm*", "*cadantine*", "*dwarf weed*"]
+CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_HERBS && name:VAR_SLAYER_KURASKS_HERB_LIST) { hidden = false; }
+
 //-------------------------Always Show----------------------------//
 
 
