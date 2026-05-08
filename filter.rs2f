@@ -775,7 +775,6 @@ name: Slayer
   area:CONST_AREA_KURASK1 || \
   area:CONST_AREA_KURASK2) && (_cond))
 
-
 /*@ define:input
 type: boolean
 label: Show bone drops
@@ -816,10 +815,10 @@ group: Kurasks
 */
 #define VAR_SLAYER_KURASKS_SHOW_HERBS true
 #define VAR_SLAYER_KURASKS_HERB_LIST ["*irit leaf", "*toadflax", "*kwuarm", "*cadantine", "*dwarf weed"]
-CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_HERBS && name:VAR_SLAYER_KURASKS_HERB_LIST)
+CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_HERBS && name:VAR_SLAYER_KURASKS_HERB_LIST) { hidden = false; }
 
 
-//GARGALONS
+// Gargalons
 #define CONST_AREA_GARGOYLE0 [3430,3554,2,3452,3531,2] // [[Slayer Tower]] top floor
 #define CONST_AREA_GARGOYLE1 [3427,9928,3,3444,9948,3] // [[Slayer Tower]] basement (Slayer task only)
 #define CONST_GARGOYLE_RULE(_cond) rule ((area:CONST_AREA_GARGOYLE0 || \
@@ -831,7 +830,15 @@ label: Show steel bars
 group: Gargalons
 */
 #define VAR_SLAYER_GARGS_SHOW_STEEL true
-CONST_GARGOYLE_RULE(VAR_SLAYER_GARGS_SHOW_STEEL && name:["Steel bar"]) { hidden = false; }
+CONST_GARGOYLE_RULE(name:["Steel bar"]) { hidden = false; }
+
+/*@ define:input
+type: boolean
+label: Show gold ore
+group: Gargalons
+*/
+#define VAR_SLAYER_GARGS_SHOW_GOLD_ORE true
+CONST_GARGOYLE_RULE(VAR_SLAYER_GARGS_SHOW_GOLD_ORE && name:["Gold ore"]) { hidden = false; }
 
 /*@ define:input
 type: boolean
@@ -840,6 +847,8 @@ group: Gargalons
 */
 #define VAR_SLAYER_GARGS_SHOW_ALCHS true
 CONST_GARGOYLE_RULE(VAR_SLAYER_GARGS_SHOW_ALCHS && name:["Adamant platelegs", "Rune axe"]) { hidden = false; }
+
+
 
 //-------------------------Always Show----------------------------//
 
