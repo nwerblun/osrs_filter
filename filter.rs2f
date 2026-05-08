@@ -1,4 +1,4 @@
-/*@ define:module:header
+  /*@ define:module:header
 hidden: true
 name: header
 */
@@ -552,7 +552,8 @@ apply (noted:false && name:CONST_HERB_HERBS && value:<VAR_HERB_MINVALUE) { hidde
 rule (noted:false && name:VAR_HERB_SHOW) { hidden = false; }
 rule (noted:false && name:VAR_HERB_HIDE) { hidden = true; }
 // stop processing additional rules for herbs
-rule (noted:false && name:CONST_HERB_HERBS) {}
+// disable this for now
+// rule (noted:false && name:CONST_HERB_HERBS) {}
 
 //-------------------------Coins----------------------------//
 
@@ -763,6 +764,8 @@ rule (name:VAR_UNTRADEABLES_HIGHLIGHTED) { VAR_UNTRADEABLES_STYLE }
 ---
 name: Slayer
 */
+
+// KURASKS
 //copied from riktenx ty buddy
 //coords are x0,y0,z0,x1,y1,z1 where 0 = lower left, 1 = upper right
 #define CONST_AREA_KURASK0 [2694,9992,0,2701,10001,0] // [[Fremennik Slayer Dungeon]] {{Fairycode|AJR}}
@@ -812,8 +815,31 @@ label: Show "worthwhile" herbs
 group: Kurasks
 */
 #define VAR_SLAYER_KURASKS_SHOW_HERBS true
-#define VAR_SLAYER_KURASKS_HERB_LIST ["*irit*", "*toadflax*", "*kwuarm*", "*cadantine*", "*dwarf weed*"]
-CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_HERBS && name:VAR_SLAYER_KURASKS_HERB_LIST) { hidden = false; }
+#define VAR_SLAYER_KURASKS_HERB_LIST ["*irit leaf", "*toadflax", "*kwuarm", "*cadantine", "*dwarf weed"]
+CONST_KURASK_RULE(VAR_SLAYER_KURASKS_SHOW_HERBS && name:VAR_SLAYER_KURASKS_HERB_LIST)
+
+
+//GARGALONS
+#define CONST_AREA_GARGOYLE0 [3430,3554,2,3452,3531,2] // [[Slayer Tower]] top floor
+#define CONST_AREA_GARGOYLE1 [3427,9928,3,3444,9948,3] // [[Slayer Tower]] basement (Slayer task only)
+#define CONST_GARGOYLE_RULE(_cond) rule ((area:CONST_AREA_GARGOYLE0 || \
+  area:CONST_AREA_GARGOYLE1) && (_cond))
+
+/*@ define:input
+type: boolean
+label: Show steel bars
+group: Gargalons
+*/
+#define VAR_SLAYER_GARGS_SHOW_STEEL true
+CONST_GARGOYLE_RULE(VAR_SLAYER_GARGS_SHOW_STEEL && name:["Steel bar"]) { hidden = false; }
+
+/*@ define:input
+type: boolean
+label: Show lower tier alchs
+group: Gargalons
+*/
+#define VAR_SLAYER_GARGS_SHOW_ALCHS true
+CONST_GARGOYLE_RULE(VAR_SLAYER_GARGS_SHOW_ALCHS && name:["Adamant platelegs", "Rune axe"]) { hidden = false; }
 
 //-------------------------Always Show----------------------------//
 
@@ -828,7 +854,7 @@ name: Always show
 type: stringlist
 label: item list
 */
-#define VAR_ALWAYS_SHOW_ITEMS ["Prayer potion*","Super restore*","Saradomin brew*","Shark","Manta Ray","Anglerfish","Stamina potion*","*Super combat*","*Ranging potion*","Loop half*","Tooth half*","Blighted*","*teleport","Blighted*","*teleport"]
+#define VAR_ALWAYS_SHOW_ITEMS ["Prayer potion*","Super restore*","Saradomin brew*","Shark","Manta Ray","Anglerfish","Stamina potion*","*Super combat*","*Ranging potion*","Loop half*","Tooth half*","Blighted*","*teleport","Blighted*","*teleport", "Araxyte venom sack", "Dawnbringer"]
 // Rule later
 apply (name:VAR_ALWAYS_SHOW_ITEMS) { hidden = false; }
 
